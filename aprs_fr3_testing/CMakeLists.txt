@@ -9,6 +9,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   rclcpp 
   tf2_kdl
   std_msgs
+  std_srvs
   Franka
 )
 

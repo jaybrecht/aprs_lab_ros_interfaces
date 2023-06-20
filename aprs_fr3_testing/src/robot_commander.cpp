@@ -29,3 +29,18 @@ void RobotCommander::get_robot_state(){
         throw e;
     }
 }
+
+void RobotCommander::move_to_home_cb_(const std::shared_ptr<std_srvs::srv::Trigger::Request> request, 
+    std::shared_ptr<std_srvs::srv::Trigger::Response> response){
+    (void)request;
+    std::array<double, 7> q_goal = {{0, -M_PI_4, 0, -3 * M_PI_4, 0, M_PI_2, M_PI_4}};
+    geometry_msgs::msg::Pose target_pose;
+    try{
+        MotionGenerator motion_generator(0.2, q_goal);
+        robot_->control(motion_generator);
+    } catch (const franka::Exception& e){
+        response->success = false;
+        return;
+    }
+    response->success = true;
+}
