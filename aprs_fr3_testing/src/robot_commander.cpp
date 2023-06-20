@@ -13,6 +13,13 @@ RobotCommander::RobotCommander(const std::string& robot_ip)
     publisher_=this->create_publisher <std_msgs::msg::String>("joint_0_state", 10);
     publish_timer_ = this->create_wall_timer(500ms, std::bind(&RobotCommander::timer_callback, this));
     state_timer_ = this->create_wall_timer(500ms, std::bind(&RobotCommander::get_robot_state, this));
+
+    move_to_home_srv_ = this->create_service<std_srvs::srv::Trigger>(
+        "go_to_home", 
+        std::bind(
+            &RobotCommander::move_to_home_cb_, this,
+            std::placeholders::_1, std::placeholders::_2));
+
 }
 
 void RobotCommander::timer_callback(){
