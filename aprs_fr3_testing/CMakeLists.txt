@@ -8,6 +8,8 @@ endif()
 set(THIS_PACKAGE_INCLUDE_DEPENDS
   rclcpp 
   tf2_kdl
+  std_msgs
+  Franka
 )
 
 find_package(ament_cmake REQUIRED)
