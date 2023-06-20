@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="gmcs_panda">
+
+  <!-- Inclue macros -->
+  <xacro:include filename="$(find franka_description)/robots/panda_arm.xacro"/>
+  <xacro:include filename="$(find franka_description)/robots/hand.xacro"/>
+  <xacro:include filename="$(find franka_description)/robots/panda_arm.ros2_control.xacro"/>
+
+  <material name="Black">
+    <color rgba="${50/255} ${50/255} ${50/255} 1.0"/>
+  </material>
+
+  <material name="Gray">
+    <color rgba="${200/255} ${200/255} ${200/255} 1.0"/>
+  </material>
+
+  <!-- Run panda macro -->
+  <xacro:panda_arm
+    arm_id="panda"
+    safety_distance="0.0"
+    connected_to="world"
+    xyz="0.05 0 0"/>
+  
+  <!-- Run hand macro -->
+  <xacro:hand 
+    ns="panda"
+    rpy="0 0 ${-pi/4}"
+    connected_to="panda_link8"
+    safety_distance="0.0"/>
+
+  <!-- Run ROS2 control macro -->
+  <xacro:panda_arm_ros2_control 
+    ns="panda"
+    robot_ip="172.16.0.2"
+    use_fake_hardware="false"
+    fake_sensor_commands="false"/>
+
+</robot>
+
